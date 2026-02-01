@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Umamusume Stamina Calculator - Global</title>
+    <style>
+        :root { --uma-pink: #ff6b81; --uma-blue: #74b9ff; --uma-green: #2ecc71; --dark: #2d3436; --gray: #636e72; }
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: #f0f2f5; padding: 20px; color: var(--dark); font-size: 14px; }
+        .card { max-width: 1100px; margin: 0 auto; background: white; border-radius: 12px; box-shadow: 0 5px 25px rgba(0,0,0,0.1); padding: 25px; }
+        h1 { text-align: center; color: var(--uma-pink); margin-bottom: 30px; }
+        .row { display: grid; gap: 15px; margin-bottom: 25px; align-items: end; }
+        .col-5 { grid-template-columns: repeat(5, 1fr); }
+        .col-4 { grid-template-columns: repeat(4, 1fr); }
+        .col-3 { grid-template-columns: repeat(3, 1fr); }
+        .col-2 { grid-template-columns: repeat(2, 1fr); }
+        .section-label { font-size: 0.75rem; font-weight: bold; color: var(--uma-pink); text-transform: uppercase; border-bottom: 2px solid #eee; margin-bottom: 10px; padding-bottom: 3px; }
+        .input-group { display: flex; flex-direction: column; gap: 4px; }
+        label { font-weight: bold; font-size: 0.8rem; color: var(--gray); }
+        input, select { padding: 8px; border: 1px solid #dfe6e9; border-radius: 6px; font-size: 0.9rem; }
+        
+        .results-area { background: #2d3436; color: white; border-radius: 10px; padding: 20px; margin-top: 20px; }
+        .res-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; text-align: center; }
+        .res-box h3 { font-size: 0.7rem; color: #b2bec3; margin: 5px; }
+        .res-val { font-size: 1.8rem; font-weight: bold; color: var(--uma-blue); display: block; margin-top: 5px; }
+        
+        .tooltip { position: relative; cursor: help; border-bottom: 1px dotted #777; }
+        .tooltip .tooltiptext { 
+            visibility: hidden; width: 300px; background: #555; color: #fff; padding: 10px; border-radius: 6px;
+            position: absolute; z-index: 10; bottom: 125%; left: 50%; transform: translateX(-50%);
+            font-size: 0.75rem; white-space: pre-wrap; opacity: 0; transition: opacity 0.2s; pointer-events: none;
+        }
+        .tooltip:hover .tooltiptext { visibility: visible; opacity: 1; }
+        .target-container { grid-column: 1 / -1; border-top: 1px solid #444; margin-top: 20px; padding-top: 20px; text-align: center; }
+        .target-container h3 { font-size: 1rem; margin: 8px; }
+        .target-val { font-size: 3.5rem; color: var(--uma-green); font-weight: bold; }
+
+        .footer { margin-top: 40px; padding: 20px; text-align: center; font-size: 0.85rem; color: var(--gray); border-top: 1px solid #dfe6e9; line-height: 1.5; }
+        .footer a { color: var(--uma-pink); text-decoration: none; font-weight: bold; transition: opacity 0.2s; }
+        .footer a:hover { text-decoration: underline; opacity: 0.8; }
+
+        *[data-rank="S"] { color: #f1c40f !important; font-weight: bold; }
+        *[data-rank="A"] { color: #e67e22 !important; font-weight: bold; }
+        *[data-rank="B"] { color: #e74c3c !important; font-weight: bold; }
+        *[data-rank="C"] { color: #2ecc71 !important; font-weight: bold; }
+        *[data-rank="D"] { color: #3498db !important; font-weight: bold; }
+        *[data-rank="E"] { color: #ff79c6 !important; font-weight: bold; }
+        *[data-rank="F"] { color: #9b59b6 !important; font-weight: bold; }
+        *[data-rank="G"] { color: #95a5a6 !important; font-weight: bold; }
+        select, select option { background: white; }
+
+        @media (max-width: 768px) {
+            body { padding: 10px; }
+            .card { padding: 15px; }
+            .col-5, .col-4, .col-3, .col-2 { grid-template-columns: 1fr; gap: 10px; }
+            .res-grid { grid-template-columns: 1fr; gap: 20px; }
+            .res-val { font-size: 1.5rem; }
+            .target-val { font-size: 2.5rem; }
+            .tooltip .tooltiptext { width: 250px; left: 50%; transform: translateX(-50%); }
+            input, select { font-size: 16px; width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h1>Umamusume Stamina Calculator - Global</h1>
+
+    <div class="section-label">1. Character Statistics</div>
+    <div class="row col-5">
+        <div class="input-group"><label for="speed">Speed</label><input type="number" id="speed" value="1200" oninput="calc()"></div>
+        <div class="input-group"><label for="stam">Stamina</label><input type="number" id="stam" value="900" oninput="calc()"></div>
+        <div class="input-group"><label for="power">Power</label><input type="number" id="power" value="1200" oninput="calc()"></div>
+        <div class="input-group"><label for="guts">Guts</label><input type="number" id="guts" value="600" oninput="calc()"></div>
+        <div class="input-group"><label for="wit">Wisdom</label><input type="number" id="wit" value="1200" oninput="calc()"></div>
+    </div>
+
+    <div class="section-label">2. Race Information</div>
+    <div class="row col-4">
+        <div class="input-group"><label for="dist">Distance (m)</label><input type="number" id="dist" value="2400" oninput="calc()"></div>
+        <div class="input-group"><label for="surface">Track Surface</label><select id="surface" onchange="calc()"></select></div>
+        <div class="input-group"><label for="condition">Track Condition</label><select id="condition" onchange="calc()"></select></div>
+        <div class="input-group"><label for="mood">Mood</label><select id="mood" onchange="calc()"></select></div>
+    </div>
+
+    <div class="section-label">3. Aptitude (Ranks)</div>
+    <div class="row col-4">
+        <div class="input-group"><label for="aptTrack">Track Aptitude</label><select id="aptTrack" onchange="calc()"></select></div>
+        <div class="input-group"><label for="aptDist">Distance Aptitude</label><select id="aptDist" onchange="calc()"></select></div>
+        <div class="input-group"><label for="style">Running Style</label><select id="style" onchange="calc()"></select></div>
+        <div class="input-group"><label for="aptStyle">Style Aptitude</label><select id="aptStyle" onchange="calc()"></select></div>
+    </div>
+
+    <div class="section-label">4. Recovery Skills</div>
+    <div class="row col-2">
+        <div class="input-group"><label for="goldSkill">Gold Skills (5.5%)</label><input type="number" id="goldSkill" value="0" oninput="calc()"></div>
+        <div class="input-group"><label for="whiteSkill">White Skills (1.5%)</label><input type="number" id="whiteSkill" value="0" oninput="calc()"></div>
+        <div class="input-group"><label for="uniqueSkill2star">Unique Skills 1-2* (3.5%)</label><input type="number" id="uniqueSkill2star" value="0" oninput="calc()"></div>
+        <div class="input-group"><label for="uniqueLvl2star">Unique Level 1-2* (+0.02% per level > 1)</label><select id="uniqueLvl2star" onchange="calc()"></select></div>
+        <div class="input-group"><label for="uniqueSkill3star">Unique Skills 3* (3.5%)</label><input type="number" id="uniqueSkill3star" value="0" oninput="calc()"></div>
+        <div class="input-group"><label for="uniqueLvl3star">Unique Level 3* (+0.02% per level > 1)</label><select id="uniqueLvl3star" onchange="calc()"></select></div>
+    </div>
+
+    <div class="results-area">
+        <div class="res-grid">
+            <div class="res-box">
+                <div class="tooltip"><h3>TOTAL HP</h3><span class="tooltiptext" id="tip-hp"></span></div>
+                <span class="res-val" id="res-hp">0</span>
+            </div>
+            <div class="res-box">
+                <div class="tooltip"><h3>HP CONSUMPTION</h3><span class="tooltiptext" id="tip-cons"></span></div>
+                <span class="res-val" id="res-cons" style="color: #fab1a0;">0</span>
+            </div>
+            <div class="res-box">
+                <div class="tooltip"><h3>VERDICT</h3><span class="tooltiptext" id="tip-status"></span></div>
+                <span class="res-val" id="res-status">-</span>
+            </div>
+        </div>
+        <div class="target-container">
+            <div class="tooltip"><h3>REQUIRED STAMINA STAT</h3><span class="tooltiptext" id="tip-target"></span></div>
+            <span class="target-val" id="res-target">0</span>
+        </div>
+    </div>
+
+    <footer class="footer">
+        Umamusume Stamina Calculator - Global.<br>
+        All formulas are taken from <a href="https://docs.google.com/spreadsheets/d/17cFLj_L2Qy9vNf2x0Cm7QnakEoxcbsWnRIxrOGqfPBQ/edit?gid=0#gid=0" target="_blank" rel="noopener">this spreadsheet</a>.<br>
+        Source code: <a href="https://github.com/FedericoHeichou/umamusume-stamina-calculator-global" target="_blank" rel="noopener">GitHub Repository</a>.
+    </footer>
+</div>
+
+<script>
+/**
+ * CONFIG OBJECT
+ * All coefficients are mapped here from the "定義" sheet in the original spreadsheet.
+ */
+const CONFIG = {
+    AptTrack: { 'S': 1.05, 'A': 1.0, 'B': 0.9, 'C': 0.8, 'D': 0.7, 'E': 0.5, 'F': 0.3, 'G': 0.1 },
+    AptDist: { 
+        'S': { speed: 1.05, accel: 1.0 }, 'A': { speed: 1.0, accel: 1.0 }, 
+        'B': { speed: 0.9, accel: 1.0 }, 'C': { speed: 0.8, accel: 1.0 },
+        'D': { speed: 0.6, accel: 1.0 }, 'E': { speed: 0.4, accel: 0.6 },
+        'F': { speed: 0.2, accel: 0.5 }, 'G': { speed: 0.1, accel: 0.4 }
+    },
+    AptStyle: { 'S': 1.1, 'A': 1.0, 'B': 0.85, 'C': 0.75, 'D': 0.6, 'E': 0.4, 'F': 0.2, 'G': 0.1 },
+    RunningStyles: {
+        'Front Runner': { hp: 0.95, speed: [1.0, 0.98, 0.962], accel: [1.0, 1.0, 0.996] },
+        'Pace Chaser':  { hp: 0.89, speed: [0.978, 0.991, 0.975], accel: [0.985, 1.0, 0.996] },
+        'Late Surger':  { hp: 1.0,  speed: [0.938, 0.998, 0.994], accel: [0.975, 1.0, 1.0] },
+        'End Closer':   { hp: 0.995, speed: [0.931, 1.0, 1.0], accel: [0.945, 1.0, 0.997] }
+    },
+    TrackConditions: {
+        'Turf': {
+            'Firm':  { spd: 0, pwr: 0, cons: 1.0 },
+            'Good':  { spd: 0, pwr: -50, cons: 1.0 },
+            'Soft':  { spd: 0, pwr: -50, cons: 1.02 },
+            'Heavy': { spd: -50, pwr: -50, cons: 1.02 }
+        },
+        'Dirt': {
+            'Firm':  { spd: 0, pwr: -100, cons: 1.0 },
+            'Good':  { spd: 0, pwr: -50, cons: 1.0 },
+            'Soft':  { spd: 0, pwr: -100, cons: 1.01 },
+            'Heavy': { spd: -50, pwr: -100, cons: 1.02 }
+        }
+    },
+    Mood: { 'Very Good': 1.04, 'Good': 1.02, 'Normal': 1.0, 'Bad': 0.98, 'Very Bad': 0.96 },
+    UniqueRecovery: { 'Lvl 1': 0, 'Lvl 2': 0.02, 'Lvl 3': 0.04, 'Lvl 4': 0.06, 'Lvl 5': 0.08 }
+};
+
+function syncRankColor(el) {
+    el.setAttribute('data-rank', el.value);
+}
+
+// Initialize HTML Selects based on CONFIG
+function init() {
+    const populate = (id, data) => {
+        const sel = document.getElementById(id);
+        if (!sel) return; // Safety: if the ID does not exist
+        const isApt = id.startsWith('apt');
+        Object.keys(data).forEach(k => {
+            const opt = new Option(k, k);
+            if (isApt) opt.setAttribute('data-rank', k);
+            sel.add(opt);
+        });
+
+        if (isApt) {
+            sel.addEventListener('change', () => syncRankColor(sel));
+            syncRankColor(sel);
+        }
+    };
+    
+    // 1. Initial population of all static selects
+    populate('surface', CONFIG.TrackConditions);
+    populate('mood', CONFIG.Mood);
+    populate('aptTrack', CONFIG.AptTrack);
+    populate('aptDist', CONFIG.AptDist);
+    populate('aptStyle', CONFIG.AptStyle);
+    populate('style', CONFIG.RunningStyles);
+    populate('uniqueLvl2star', CONFIG.UniqueRecovery);
+    populate('uniqueLvl3star', CONFIG.UniqueRecovery);
+
+    // 2. Logic for the dynamic select (Condition)
+    const surfaceEl = document.getElementById('surface');
+    surfaceEl.onchange = () => {
+        const condSel = document.getElementById('condition');
+        condSel.innerHTML = "";
+        const surf = surfaceEl.value;
+        if (CONFIG.TrackConditions[surf]) {
+            Object.keys(CONFIG.TrackConditions[surf]).forEach(k => condSel.add(new Option(k, k)));
+        }
+        // If we just loaded the surface from saved state,
+        // we must also set the condition after populating
+        if (window._loadingState && window._loadingState.condition) {
+            condSel.value = window._loadingState.condition;
+        }
+        calc();
+    };
+
+    // 3. LOAD STATE (Default or LocalStorage)
+    const savedState = JSON.parse(localStorage.getItem('inputState'));
+    
+    if (savedState) {
+        // Use a temporary global variable at load to handle dependencies
+        window._loadingState = savedState; 
+        
+        Object.keys(savedState).forEach(id => {
+            const el = document.getElementById(id);
+            if (el) {
+                el.value = savedState[id];
+                if (id.startsWith('apt')) syncRankColor(el);
+            }
+        });
+    } else {
+        // Defaults if nothing in localStorage
+        const defaults = ['aptTrack', 'aptDist', 'aptStyle'];
+        defaults.forEach(id => {
+            const el = document.getElementById(id);
+            el.value = 'A';
+            syncRankColor(el);
+        });
+        document.getElementById('mood').value = 'Normal';
+        document.getElementById('uniqueLvl2star').value = 'Lvl 1';
+        document.getElementById('uniqueLvl3star').value = 'Lvl 1';
+    }
+
+    // 4. Manual trigger of surface to populate 'condition'
+    surfaceEl.dispatchEvent(new Event('change'));
+    
+    // Cleanup
+    delete window._loadingState;
+    
+    calc();
+}
+
+function calc() {
+    // Inputs
+    const speedBase         = parseFloat(document.getElementById('speed').value) || 0;
+    const stamBase          = parseFloat(document.getElementById('stam').value) || 0;
+    const pwrBase           = parseFloat(document.getElementById('power').value) || 0;
+    const gutsBase          = parseFloat(document.getElementById('guts').value) || 0;
+    const witBase           = parseFloat(document.getElementById('wit').value) || 0;
+    const dist              = parseFloat(document.getElementById('dist').value) || 0;
+    
+    const surf              = document.getElementById('surface').value;
+    const cond              = document.getElementById('condition').value;
+    const mood              = document.getElementById('mood').value;
+    const moodVal           = CONFIG.Mood[mood];
+    
+    const aptTrack          = document.getElementById('aptTrack').value;
+    const trackApt          = CONFIG.AptTrack[aptTrack];
+    const aptDist           = document.getElementById('aptDist').value;
+    const distApt           = CONFIG.AptDist[aptDist];
+    const aptStyle          = document.getElementById('aptStyle').value;
+    const styleApt          = CONFIG.AptStyle[aptStyle];
+    const styleName         = document.getElementById('style').value;
+    const styleData         = CONFIG.RunningStyles[styleName];
+    
+    const gold              = parseInt(document.getElementById('goldSkill').value) || 0;
+    const white             = parseInt(document.getElementById('whiteSkill').value) || 0;
+    const unique2star       = parseInt(document.getElementById('uniqueSkill2star').value) || 0;
+    const uniqueLvl2starKey = document.getElementById('uniqueLvl2star').value;
+    const uniqueLvl2star    = CONFIG.UniqueRecovery[uniqueLvl2starKey];
+    const unique3star       = parseInt(document.getElementById('uniqueSkill3star').value) || 0;
+    const uniqueLvl3starKey = document.getElementById('uniqueLvl3star').value;
+    const uniqueLvl3star    = CONFIG.UniqueRecovery[uniqueLvl3starKey];
+
+    // Save all the inputs in the localStorage as json
+    const inputs = document.querySelectorAll('input, select');
+    const state = {};
+    inputs.forEach(el => { if(el.id) state[el.id] = el.value; });
+    localStorage.setItem('inputState', JSON.stringify(state));
+
+    // Constants
+    const paceDownChangeAssumption = 0.05;
+    const goldRecovery = 0.055;
+    const whiteRecovery = 0.015;
+    const unique2starRecovery = 0.035;
+    const unique3starRecovery = 0.055;
+
+    // Formules
+    // 1. STAT MODIFIERS (Surface/Condition)
+    const condMods = CONFIG.TrackConditions[surf][cond];
+    const adjPwr = (pwrBase + condMods.pwr) * trackApt * moodVal;
+    const adjSpd = (speedBase + condMods.spd) * distApt.speed * moodVal;
+
+    // 2. HP CALCULATIONS
+    const baseSpeed = 20 - (dist - 2000) / 1000;  // in m/s
+    const baseHP = dist + 0.8 * stamBase * styleData.hp;
+    const unique2starRecoveryBonus = 1 + uniqueLvl2star;
+    const unique3starRecoveryBonus = 1 + uniqueLvl3star;
+    const recoveryStdSkillRate = (gold * goldRecovery) + (white * whiteRecovery);
+    const recoveryUniqueRate = (unique2star * (unique2starRecovery * unique2starRecoveryBonus)) + (unique3star * (unique3starRecovery * unique3starRecoveryBonus));
+    const recoveryRate = recoveryStdSkillRate + recoveryUniqueRate;
+    const totalHP = baseHP * (1 + recoveryRate);
+
+    const consumptionTrackFactor = CONFIG.TrackConditions[surf][cond].cons;
+    const consumptionLastSpurtFactor = 1 + (200 / Math.sqrt(600*gutsBase));
+
+    function calcTopSpeed(speedCoeff) {
+        return baseSpeed * speedCoeff + ((witBase/5500) * Math.log10(witBase*0.1) - 0.65 / 2) * 0.01 * baseSpeed;
+    }
+
+    const midLegTopSpeedBeforeModes = calcTopSpeed(styleData.speed[1]);
+    const nonNormalModeUptime = (dist / 24 / midLegTopSpeedBeforeModes) / (dist / 24 / midLegTopSpeedBeforeModes + 3);
+
+    function calcTargetSpeedFromPhase(phaseId) {
+        const speedCoeff = styleData.speed[Math.min(phaseId, 2)];
+        if (phaseId == 0) {
+            return calcTopSpeed(speedCoeff);
+        }
+        if (phaseId === 1) {
+            const styleCoeff = styleName !== 'Front Runner' ? -0.055*paceDownChangeAssumption : 0.04 * 0.2 * Math.log10(witBase * 0.1);
+            return midLegTopSpeedBeforeModes * (1 + nonNormalModeUptime * styleCoeff)
+        }
+        if (phaseId === 2) {
+            return baseSpeed * speedCoeff + Math.sqrt(500 * adjSpd) * distApt.speed * trackApt * 0.002 + ((witBase/5500) * Math.log10(witBase*0.1) - 0.65 / 2) * 0.01 * baseSpeed;
+        }
+        const lastSpurtBase = (baseSpeed * (speedCoeff + 0.01) + Math.sqrt(500 * adjSpd) * distApt.speed * trackApt * 0.002);
+        return lastSpurtBase * 1.05 + Math.sqrt(500 * adjSpd) * distApt.speed * trackApt * 0.002;
+    }
+
+    function calcAccelerationFromPhase(phaseId) {
+        return 0.0006 * Math.sqrt(500 * adjPwr) * styleData.accel[Math.min(phaseId, 2)] * distApt.accel * trackApt;
+    }
+
+    function calcTime(initialSpeed, targetSpeed, acceleration) {
+        return (targetSpeed - initialSpeed) / acceleration;
+    }
+
+    function calcHPConsumption(initialSpeed, acceleration, time, isConstant, isLastSpurt, forceTargetSpeed=0) {
+        const consumptionFactor = isLastSpurt ? consumptionTrackFactor * consumptionLastSpurtFactor : consumptionTrackFactor;
+        const targetSpeed = forceTargetSpeed || initialSpeed + acceleration * time;
+        if (isConstant) {
+            return 20 * consumptionFactor * (targetSpeed - baseSpeed + 12) ** 2 / 144 * time;
+        }
+        return 20 * consumptionFactor * ((targetSpeed - baseSpeed + 12) ** 3 - (initialSpeed - baseSpeed + 12) ** 3) / (3 * acceleration) / 144;
+    }
+
+    const raceMatrix = {};
+    // Start Dash
+    let initialSpeed = 3.0;
+    let targetSpeed = baseSpeed * 0.85;
+    let acceleration = 24 + calcAccelerationFromPhase(0);
+    let time = calcTime(initialSpeed, targetSpeed, acceleration);
+    let distance = (initialSpeed + targetSpeed) / 2 * time;
+    let hpConsumption = 20 * consumptionTrackFactor * time;
+    raceMatrix.startDash = {
+        initialSpeed: initialSpeed,
+        targetSpeed: targetSpeed,
+        acceleration: acceleration,
+        time: time,
+        distance: distance,
+        hpConsumption: hpConsumption,
+    };
+    // Phase 0
+    initialSpeed = raceMatrix.startDash.targetSpeed;
+    targetSpeed = calcTargetSpeedFromPhase(0);
+    acceleration = calcAccelerationFromPhase(0);
+    time = Math.min(calcTime(initialSpeed, targetSpeed, acceleration), (-initialSpeed + Math.sqrt(initialSpeed**2 + 2 * acceleration * (dist / 6 - distance))) / acceleration);
+    distance = (initialSpeed + acceleration * time / 2) * time;
+    hpConsumption = calcHPConsumption(initialSpeed, acceleration, time, false, false);
+    raceMatrix.phase0 = {
+        initialSpeed: initialSpeed,
+        targetSpeed: targetSpeed,
+        acceleration: acceleration,
+        time: time,
+        distance: distance,
+        hpConsumption: hpConsumption,
+    };
+    // Phase 0 Constant
+    initialSpeed = raceMatrix.phase0.targetSpeed;
+    targetSpeed = raceMatrix.phase0.targetSpeed;
+    acceleration = 0;
+    distance = Math.max(dist / 6 - (raceMatrix.startDash.distance + raceMatrix.phase0.distance), 0);
+    time = distance / targetSpeed;
+    hpConsumption = calcHPConsumption(initialSpeed, acceleration, time, true, false);
+    raceMatrix.phase0Constant = {
+        initialSpeed: initialSpeed,
+        targetSpeed: targetSpeed,
+        acceleration: acceleration,
+        time: time,
+        distance: distance,
+        hpConsumption: hpConsumption,
+    };
+    // Phase 1
+    initialSpeed = initialSpeed + acceleration * time;
+    targetSpeed = calcTargetSpeedFromPhase(1);
+    acceleration = initialSpeed <= targetSpeed ? calcAccelerationFromPhase(1) : -0.8;
+    time = calcTime(initialSpeed, targetSpeed, acceleration);
+    distance = (initialSpeed + targetSpeed) / 2 * time;
+    hpConsumption = calcHPConsumption(initialSpeed, acceleration, time, false, false);
+    raceMatrix.phase1 = {
+        initialSpeed: initialSpeed,
+        targetSpeed: targetSpeed,
+        acceleration: acceleration,
+        time: time,
+        distance: distance,
+        hpConsumption: hpConsumption,
+    };
+    // Phase 1 Constant
+    initialSpeed = raceMatrix.phase1.targetSpeed;
+    targetSpeed = raceMatrix.phase1.targetSpeed;
+    acceleration = 0;
+    distance = dist / 2 - raceMatrix.phase1.distance;
+    time = distance / targetSpeed;
+    // Rushing rate should be calculated only if needed (on or off), but we don't care, so we assume it is always off (0)
+    const rushingRate = 0;
+    hpConsumption = calcHPConsumption(initialSpeed, acceleration, time, true, false) * (1 + rushingRate * (3*0.55+6*0.45*0.55+9*0.45**2*0.55+12*0.45**3)/time * 0.6);
+    if (styleName !== "Front Runner") {
+        hpConsumption *= (1 - 0.4 * paceDownChangeAssumption * nonNormalModeUptime);
+    }
+    raceMatrix.phase1Constant = {
+        initialSpeed: initialSpeed,
+        targetSpeed: targetSpeed,
+        acceleration: acceleration,
+        time: time,
+        distance: distance,
+        hpConsumption: hpConsumption,
+    };
+    // Phase 2
+    initialSpeed = raceMatrix.phase1Constant.targetSpeed;
+    targetSpeed = calcTargetSpeedFromPhase(2);
+    const lastSpurtTargetSpeed = calcTargetSpeedFromPhase(3);
+    acceleration = initialSpeed <= targetSpeed ? calcAccelerationFromPhase(2) : -0.8;
+    const currentConsumedHP = Object.values(raceMatrix).reduce((sum, phase) => sum + phase.hpConsumption, 0);
+    const lastSpurtStartDistance = Math.min((totalHP - currentConsumedHP - (dist / 3 - 60) * 20 * consumptionTrackFactor * consumptionLastSpurtFactor * (targetSpeed - baseSpeed + 12) ** 2 / 144 / targetSpeed) / (20 * consumptionTrackFactor * consumptionLastSpurtFactor * ((lastSpurtTargetSpeed - baseSpeed + 12) ** 2 / 144 / lastSpurtTargetSpeed - (targetSpeed - baseSpeed + 12) ** 2 / 144 / targetSpeed)) + 60, dist / 3);
+    time = dist / 3 <= lastSpurtStartDistance ? 0 : (targetSpeed - initialSpeed) / acceleration;
+    distance = (initialSpeed + targetSpeed) / 2 * time;
+    hpConsumption = calcHPConsumption(initialSpeed, acceleration, time, false, true);
+    raceMatrix.phase2 = {
+        initialSpeed: initialSpeed,
+        targetSpeed: targetSpeed,
+        acceleration: acceleration,
+        time: time,
+        distance: distance,
+        hpConsumption: hpConsumption,
+    };
+    // Phase 2, 3 Constant
+    initialSpeed = raceMatrix.phase2.targetSpeed;
+    targetSpeed = raceMatrix.phase2.targetSpeed;
+    acceleration = 0;
+    distance = Math.max(dist / 3 - lastSpurtStartDistance - raceMatrix.phase2.distance, 0);
+    time = distance / targetSpeed;
+    hpConsumption = calcHPConsumption(initialSpeed, acceleration, time, true, true);
+    raceMatrix.phase2Constant = {
+        initialSpeed: initialSpeed,
+        targetSpeed: targetSpeed,
+        acceleration: acceleration,
+        time: time,
+        distance: distance,
+        hpConsumption: hpConsumption,
+    };
+    // Last Spurt
+    initialSpeed = raceMatrix.phase2.distance ? raceMatrix.phase2Constant.targetSpeed : raceMatrix.phase1Constant.targetSpeed;
+    targetSpeed = calcTargetSpeedFromPhase(3);
+    acceleration = calcAccelerationFromPhase(3);
+    time = calcTime(initialSpeed, targetSpeed, acceleration);
+    distance = (initialSpeed + targetSpeed) / 2 * time;
+    hpConsumption = calcHPConsumption(initialSpeed, acceleration, time, false, true);
+    raceMatrix.lastSpurt = {
+        initialSpeed: initialSpeed,
+        targetSpeed: targetSpeed,
+        acceleration: acceleration,
+        time: time,
+        distance: distance,
+        hpConsumption: hpConsumption,
+    };
+    // Last Spurt Constant
+    initialSpeed = raceMatrix.lastSpurt.targetSpeed;
+    targetSpeed = raceMatrix.lastSpurt.targetSpeed;
+    acceleration = 0;
+    hpConsumption = Math.min(calcHPConsumption(initialSpeed, acceleration, (dist/3 - (raceMatrix.phase2.distance + raceMatrix.phase2Constant.distance + raceMatrix.lastSpurt.distance)), true, true, targetSpeed) / initialSpeed, totalHP - Object.values(raceMatrix).reduce((sum, phase) => sum + phase.hpConsumption, 0));
+    time = hpConsumption / calcHPConsumption(initialSpeed, acceleration, 1, true, true, targetSpeed);
+    distance = targetSpeed * time;
+    raceMatrix.lastSpurtConstant = {
+        initialSpeed: initialSpeed,
+        targetSpeed: targetSpeed,
+        acceleration: acceleration,
+        time: time,
+        distance: distance,
+        hpConsumption: hpConsumption,
+    };
+    // HP 0 (deceleration)
+    initialSpeed = raceMatrix.lastSpurtConstant.targetSpeed;
+    targetSpeed = 0;
+    acceleration = -1.2;
+    distance = dist / 3 - (raceMatrix.phase2.distance + raceMatrix.phase2Constant.distance + raceMatrix.lastSpurt.distance + raceMatrix.lastSpurtConstant.distance);
+    time = (-initialSpeed + Math.sqrt(initialSpeed**2 + 2 * acceleration * distance)) / acceleration;
+    hpConsumption = 0;
+    raceMatrix.hp0Deceleration = {
+        initialSpeed: initialSpeed,
+        targetSpeed: targetSpeed,
+        acceleration: acceleration,
+        time: time,
+        distance: distance,
+        hpConsumption: hpConsumption,
+    };
+
+    // Ideal consumption
+    initialSpeed = raceMatrix.phase1Constant.targetSpeed;
+    targetSpeed = raceMatrix.lastSpurtConstant.targetSpeed;
+    acceleration = raceMatrix.lastSpurt.acceleration;
+    time = calcTime(initialSpeed, targetSpeed, acceleration);
+    distance = (initialSpeed + targetSpeed) / 2 * time;
+    hpConsumption = calcHPConsumption(initialSpeed, acceleration, time, false, true);
+    raceMatrix.idealConsumption = {
+        initialSpeed: initialSpeed,
+        targetSpeed: targetSpeed,
+        acceleration: acceleration,
+        time: time,
+        distance: distance,
+        hpConsumption: hpConsumption,
+    };
+    // Ideal consumption constant
+    initialSpeed = raceMatrix.idealConsumption.targetSpeed;
+    targetSpeed = raceMatrix.idealConsumption.targetSpeed;
+    acceleration = 0;
+    distance = dist / 3 - raceMatrix.idealConsumption.distance;
+    time = distance / targetSpeed;
+    hpConsumption = calcHPConsumption(initialSpeed, acceleration, time, true, true, targetSpeed);
+    raceMatrix.idealConsumptionConstant = {
+        initialSpeed: initialSpeed,
+        targetSpeed: targetSpeed,
+        acceleration: acceleration,
+        time: time,
+        distance: distance,
+        hpConsumption: hpConsumption,
+    };
+    const consumption = (
+        raceMatrix.startDash.hpConsumption +
+        raceMatrix.phase0.hpConsumption +
+        raceMatrix.phase0Constant.hpConsumption +
+        raceMatrix.phase1.hpConsumption +
+        raceMatrix.phase1Constant.hpConsumption +
+        raceMatrix.idealConsumption.hpConsumption +
+        raceMatrix.idealConsumptionConstant.hpConsumption
+    );
+    const targetStamina = stamBase + (consumption - totalHP) / 0.8 / styleData.hp / (1 + recoveryRate);
+
+    // Update UI
+    document.getElementById('res-hp').innerText = totalHP.toFixed(2);
+    document.getElementById('res-cons').innerText = consumption.toFixed(2);
+    document.getElementById('res-target').innerText = Math.ceil(targetStamina);
+    
+    const status = document.getElementById('res-status');
+    status.innerText = totalHP >= consumption ? "Enough ✅" : "Not Enough ❌";
+    status.style.color = totalHP >= consumption ? "#2ecc71" : "#ff7675";
+
+    // Update Tooltips
+    document.getElementById('tip-hp').innerText =
+        `Base HP = Distance + 0.8 × Stamina × Style HP Mod\n` +
+        `Formula: baseHP = ${dist} + 0.8 × ${stamBase} × ${styleData.hp.toFixed(3)} = ${baseHP.toFixed(2)}\n` +
+        `Recovery: (${gold} × ${(goldRecovery*100).toFixed(1)}%) + (${white} × ${(whiteRecovery*100).toFixed(1)}%) + (${unique2star} × ${((unique2starRecovery*unique2starRecoveryBonus)*100).toFixed(2)}%) + (${unique3star} × ${((unique3starRecovery*unique3starRecoveryBonus)*100).toFixed(2)}%) = ${(recoveryRate*100).toFixed(2)}%\n` +
+        `Total HP = baseHP × Recovery% = ${baseHP.toFixed(2)} × ${(100+recoveryRate*100).toFixed(2)}% = ${totalHP.toFixed(2)}`;
+
+    document.getElementById('tip-cons').innerText =
+        `HP Consumption is calculated by summing the HP used in each race phase (see code for details).\n` +
+        `Track Factor: ${consumptionTrackFactor}\n` +
+        `Last Spurt Factor: ${consumptionLastSpurtFactor.toFixed(3)}\n` +
+        `Adjusted Power: ${adjPwr.toFixed(2)}, Adjusted Speed: ${adjSpd.toFixed(2)}\n` +
+        `Total Consumption = sum of all phase consumptions = ${consumption.toFixed(2)}`;
+
+    document.getElementById('tip-status').innerText =
+        totalHP >= consumption ?
+        `You have enough Stamina/Guts` :
+        `You do NOT have enough Stamina/Guts`;
+
+    document.getElementById('tip-target').innerText =
+        `Required Stamina = Current Stamina + (Consumption - Total HP) / (0.8 × Style HP Mod × Recovery%)\n` +
+        `Formula: ${stamBase} + (${consumption.toFixed(2)} - ${totalHP.toFixed(2)}) / (0.8 × ${styleData.hp.toFixed(2)} × ${(100+recoveryRate*100).toFixed(2)}%) = ${Math.ceil(targetStamina)}`;
+}
+
+window.onload = init;
+</script>
+</body>
+</html>
