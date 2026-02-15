@@ -18,7 +18,38 @@
         .col-4 { grid-template-columns: repeat(4, 1fr); }
         .col-3 { grid-template-columns: repeat(3, 1fr); }
         .col-2 { grid-template-columns: repeat(2, 1fr); }
-        .section-label { font-size: 0.75rem; font-weight: bold; color: var(--uma-pink); text-transform: uppercase; border-bottom: 2px solid #eee; margin-bottom: 10px; padding-bottom: 3px; }
+        .text-center { text-align: center; }
+        .no-transition, .no-transition::before, .no-transition::after { transition: none !important; }
+        .skills-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 18px 30px; margin-bottom: 25px; }
+        .skill-box { display: flex; align-items: center; background: #f8f9fa; border-radius: 8px; padding: 10px 16px; gap: 14px; min-height: 36px; }
+        .skill-icon { width: 32px; height: 32px; object-fit: contain; border-radius: 6px; background: #fff; border: 1px solid #e1e1e1; box-shadow: 0 1px 4px rgba(0,0,0,0.04); }
+        .skill-label { font-weight: bold; font-size: 1rem; color: var(--uma-pink); min-width: 110px; }
+        .recovery-percent, .bonus-value { color: var(--gray); font-size: 0.9em; font-weight: normal; margin-left: 2px; }
+        .skill-tooltip-icon { display: inline-block; width: 18px; height: 18px; margin-left: 6px; vertical-align: middle; border-radius: 50%; background: #ff6b81; color: #fff; font-weight: bold; font-size: 1rem; text-align: center; line-height: 18px; box-shadow: 0 2px 6px rgba(0,0,0,0.08); cursor: pointer; position: relative; border: 1px solid #ff6b81; }
+        .skill-tooltip-icon:hover + .skill-tooltip{ opacity: 1; pointer-events: auto; }
+        .skill-tooltip { opacity: 0; transition: opacity 0.2s; position: absolute; left: 50%; top: 120%; transform: translateX(-50%); background: #fff; color: #2d3436; border-radius: 8px; box-shadow: 0 4px 16px rgba(0,0,0,0.12); padding: 12px 16px; font-size:0.85rem; min-width: 220px; z-index: 20; pointer-events: none; }
+        .skill-tooltip strong{ color:var(--uma-pink); }
+        .skill-tooltip span{ color:#636e72; font-size:0.8em; }
+        .skill-tooltip ul { margin: 6px 0 0 0; padding-left: 18px; color: #636e72; font-size: 0.8em; }
+        .skill-tooltip ul li { margin-bottom: 2px; }
+        .skill-box{ position:relative; }
+        .stepper-group { display: flex; align-items: center; margin-left: auto; }
+        .stepper-btn { width: 28px; height: 32px; font-size: 1.2rem; border: none; background: #e1e1e1; color: #636e72; border-radius: 6px; cursor: pointer; transition: background 0.15s; }
+        .stepper-btn:hover { background: #dfe6e9; }
+        .skill-stepper-label { width: 38px; text-align: center; font-size: 1rem; border: none; background: transparent; font-weight: bold; color: var(--dark); pointer-events: none; margin: 0 4px; }
+        .recovery-level { margin-right: 10px; padding: 6px 8px; border-radius: 6px; border: 1px solid #dfe6e9; font-size: 1rem; }
+
+        .section-label { font-size: 0.75rem; font-weight: bold; color: var(--uma-pink); text-transform: uppercase; border-bottom: 2px solid #eee; margin-bottom: 10px; padding-bottom: 3px; cursor: pointer; display: flex; align-items: center; user-select: none; justify-content: flex-start; }
+        .section-arrow { width: 32px; min-width: 32px; max-width: 32px; height: 32px; margin-left: auto; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: #f8f9fa; color: var(--gray); font-size: 1.2em; transition: background 0.15s, color 0.15s; box-shadow: 0 1px 4px rgba(0,0,0,0.04); }
+        .section-label:hover .section-arrow { background: #e1e1e1; color: var(--uma-pink); }
+        input.section-toggle { display: none; }
+        .section-label .section-arrow { order: 2; }
+        .section-label .section-title { order: 1; flex-grow: 1 ; min-width: 0; }
+        .section-label .section-arrow::before { content: '\203a'; font-size: 1.5em; transition: transform 0.2s; display: block; transform: rotate(90deg) translateY(-1px); }
+        input.section-toggle:checked + .section-label .section-arrow::before { content: '\2039'; }
+        input.section-toggle:not(:checked) + .section-label + .section-content { max-height: 0; opacity: 0; overflow: hidden; transition: max-height 0.3s cubic-bezier(.4,0,.2,1), opacity 0.2s; }
+        input.section-toggle:checked + .section-label + .section-content { max-height: 2000px; opacity: 1; overflow: visible; transition: max-height 0.5s cubic-bezier(.4,0,.2,1), opacity 0.3s; }
+        .section-content { max-height: 2000px; opacity: 1; overflow: visible; transition: max-height 0.5s cubic-bezier(.4,0,.2,1), opacity 0.3s; }
         .input-group { display: flex; flex-direction: column; gap: 4px; }
         label { font-weight: bold; font-size: 0.8rem; color: var(--gray); }
         input, select { padding: 8px; border: 1px solid #dfe6e9; border-radius: 6px; font-size: 0.9rem; }
@@ -39,6 +70,19 @@
         .target-container h3 { font-size: 1rem; margin: 8px; }
         .target-val { font-size: 3.5rem; color: var(--uma-green); font-weight: bold; }
 
+        .calculated-stats-area { background: linear-gradient(90deg, #f6fafd 60%, #eaf6fb 100%); border-radius: 10px; box-shadow: 0 2px 10px rgba(116,185,255,0.07); padding: 18px 10px 10px 10px; margin-bottom: 18px; }
+        .calculated-stats-area > div:first-child { font-weight: bold; color: var(--uma-pink); font-size: 1.1rem; margin-bottom: 8px; }
+        .calculated-stats-row { display: flex; gap: 32px; justify-content: center; align-items: flex-end; }
+        .calculated-stats-row > div { text-align: center; }
+        .calculated-stats-row .stat-label { font-size: 0.9rem; margin-bottom: 4px; }
+        .calculated-stats-row img { width: 36px; height: 36px; margin-bottom: 4px; }
+        .calculated-stats-row .stat-value { font-size: 1.1rem; font-weight: bold; margin-top: 2px; }
+        #stat-adjSpd { color: #27b2ff; }
+        #stat-adjStam { color: #fe7f6f; }
+        #stat-adjPwr { color: #ffad13; }
+        #stat-adjGuts { color: #fe84ad; }
+        #stat-adjWit { color: #1dd29e; }
+
         .footer { margin-top: 40px; padding: 20px; text-align: center; font-size: 0.85rem; color: var(--gray); border-top: 1px solid #dfe6e9; line-height: 1.5; }
         .footer a { color: var(--uma-pink); text-decoration: none; font-weight: bold; transition: opacity 0.2s; }
         .footer a:hover { text-decoration: underline; opacity: 0.8; }
@@ -54,14 +98,22 @@
         select, select option { background: white; }
 
         @media (max-width: 768px) {
-            body { padding: 10px; }
+            body { padding: 0; width: 100%; margin: 0; }
             .card { padding: 15px; }
             .col-5, .col-4, .col-3, .col-2 { grid-template-columns: 1fr; gap: 10px; }
             .res-grid { grid-template-columns: 1fr; gap: 20px; }
             .res-val { font-size: 1.5rem; }
             .target-val { font-size: 2.5rem; }
             .tooltip .tooltiptext { width: 250px; left: 50%; transform: translateX(-50%); }
-            input, select { font-size: 16px; width: 100%; }
+            input { font-size: 16px; width: calc(100% - 20px); }
+            select { font-size: 16px; width: calc(100% - 2px); }
+            .skills-grid { grid-template-columns: 1fr; gap: 12px; }
+            .skill-box { flex-direction: row; gap: 10px; }
+            .skill-label { min-width: 35px; font-size: 0.95rem; }
+            .skill-stepper-label { padding: 0; width: 20px; }
+            .recovery-level { min-width: 30px; }
+            .d-s-none { display: none; }
+            .section-label .section-arrow::before { transform: rotate(90deg) translateY(-2px); }
         }
     </style>
 </head>
@@ -70,39 +122,337 @@
 <div class="card">
     <h1>Umamusume Stamina Calculator - Global</h1>
 
-    <div class="section-label">1. Character Statistics</div>
-    <div class="row col-5">
-        <div class="input-group"><label for="speed">Speed</label><input type="number" id="speed" value="1200"></div>
-        <div class="input-group"><label for="stam">Stamina</label><input type="number" id="stam" value="900"></div>
-        <div class="input-group"><label for="power">Power</label><input type="number" id="power" value="1200"></div>
-        <div class="input-group"><label for="guts">Guts</label><input type="number" id="guts" value="600"></div>
-        <div class="input-group"><label for="wit">Wisdom</label><input type="number" id="wit" value="1200"></div>
+    <input type="checkbox" id="section1" class="section-toggle" checked>
+    <label for="section1" class="section-label"><span class="section-title">1. Character Statistics</span><span class="section-arrow"></span></label>
+    <div class="section-content">
+        <div class="row col-5">
+            <div class="input-group"><label for="speed">Speed</label><input type="number" id="speed" value="1200"></div>
+            <div class="input-group"><label for="stam">Stamina</label><input type="number" id="stam" value="900"></div>
+            <div class="input-group"><label for="power">Power</label><input type="number" id="power" value="1200"></div>
+            <div class="input-group"><label for="guts">Guts</label><input type="number" id="guts" value="600"></div>
+            <div class="input-group"><label for="wit">Wit</label><input type="number" id="wit" value="1200"></div>
+        </div>
     </div>
 
-    <div class="section-label">2. Race Information</div>
-    <div class="row col-4">
-        <div class="input-group"><label for="dist">Distance (m)</label><input type="number" id="dist" value="2400"></div>
-        <div class="input-group"><label for="surface">Track Surface</label><select id="surface"></select></div>
-        <div class="input-group"><label for="condition">Track Condition</label><select id="condition"></select></div>
-        <div class="input-group"><label for="mood">Mood</label><select id="mood"></select></div>
+    <input type="checkbox" id="section2" class="section-toggle" checked>
+    <label for="section2" class="section-label"><span class="section-title">2. Race Information</span><span class="section-arrow"></span></label>
+    <div class="section-content">
+        <div class="row col-4">
+            <div class="input-group"><label for="dist">Distance (m)</label><input type="number" id="dist" value="2400"></div>
+            <div class="input-group"><label for="surface">Track Surface</label><select id="surface"></select></div>
+            <div class="input-group"><label for="condition">Track Condition</label><select id="condition"></select></div>
+            <div class="input-group"><label for="mood">Mood</label><select id="mood"></select></div>
+        </div>
     </div>
 
-    <div class="section-label">3. Aptitude (Ranks)</div>
-    <div class="row col-4">
-        <div class="input-group"><label for="aptTrack">Track Aptitude</label><select id="aptTrack"></select></div>
-        <div class="input-group"><label for="aptDist">Distance Aptitude</label><select id="aptDist"></select></div>
-        <div class="input-group"><label for="style">Running Style</label><select id="style"></select></div>
-        <div class="input-group"><label for="aptStyle">Style Aptitude</label><select id="aptStyle"></select></div>
+    <input type="checkbox" id="section3" class="section-toggle" checked>
+    <label for="section3" class="section-label"><span class="section-title">3. Aptitude (Ranks)</span><span class="section-arrow"></span></label>
+    <div class="section-content">
+        <div class="row col-4">
+            <div class="input-group"><label for="aptTrack">Track Aptitude</label><select id="aptTrack"></select></div>
+            <div class="input-group"><label for="aptDist">Distance Aptitude</label><select id="aptDist"></select></div>
+            <div class="input-group"><label for="style">Running Style</label><select id="style"></select></div>
+            <div class="input-group"><label for="aptStyle">Style Aptitude</label><select id="aptStyle"></select></div>
+        </div>
     </div>
 
-    <div class="section-label">4. Recovery Skills</div>
-    <div class="row col-2">
-        <div class="input-group"><label for="goldSkill">Gold Skills (5.5%)</label><input type="number" id="goldSkill" value="0"></div>
-        <div class="input-group"><label for="whiteSkill">White Skills (1.5%)</label><input type="number" id="whiteSkill" value="0"></div>
-        <div class="input-group"><label for="uniqueSkill2star">Unique Skills 1-2* (3.5%)</label><input type="number" id="uniqueSkill2star" value="0"></div>
-        <div class="input-group"><label for="uniqueLvl2star">Unique Level 1-2* (+0.02% per level > 1)</label><select id="uniqueLvl2star"></select></div>
-        <div class="input-group"><label for="uniqueSkill3star">Unique Skills 3* (3.5%)</label><input type="number" id="uniqueSkill3star" value="0"></div>
-        <div class="input-group"><label for="uniqueLvl3star">Unique Level 3* (+0.02% per level > 1)</label><select id="uniqueLvl3star"></select></div>
+    <input type="checkbox" id="section4" class="section-toggle" checked>
+    <label for="section4" class="section-label"><span class="section-title">4. Recovery Skills</span><span class="section-arrow"></span></label>
+    <div class="section-content">
+        <div class="skills-grid">
+            <div class="skill-box">
+                <img src="img/recovery_gold.webp" alt="Gold Recovery Skills" class="skill-icon">
+                <span class="skill-label">Gold <span class="recovery-percent">(5.5%)</span><span class="skill-tooltip-icon">!</span><div class="skill-tooltip"><strong>Gold Recovery Skills</strong><br><span>Gold skills restore 5.5% HP.<br>Examples:</span><ul>
+                    <li>Swinging Maestro</li>
+                    <li>Gourmand</li>
+                </ul></div></span>
+                <div class="stepper-group">
+                    <button type="button" class="stepper-btn" data-target="goldRecoverySkill" data-step="-1">-</button>
+                    <input type="text" id="goldRecoverySkill" value="0" readonly class="skill-stepper-label">
+                    <button type="button" class="stepper-btn" data-target="goldRecoverySkill" data-step="1">+</button>
+                </div>
+            </div>
+            <div class="skill-box">
+                <img src="img/recovery_normal.webp" alt="White Recovery Skills" class="skill-icon">
+                <span class="skill-label">White <span class="recovery-percent">(1.5%)</span><span class="skill-tooltip-icon">!</span><div class="skill-tooltip"><strong>White Recovery Skills</strong><br><span>White skills restore 1.5% HP.<br>Examples:</span><ul>
+                    <li>Corner Recovery</li>
+                    <li>Hydrate</li>
+                    <li>Triple 7s</li>
+                </ul></div></span>
+                <div class="stepper-group">
+                    <button type="button" class="stepper-btn" data-target="whiteRecoverySkill" data-step="-1">-</button>
+                    <input type="text" id="whiteRecoverySkill" value="0" readonly class="skill-stepper-label">
+                    <button type="button" class="stepper-btn" data-target="whiteRecoverySkill" data-step="1">+</button>
+                </div>
+            </div>
+            <div class="skill-box">
+                <img src="img/recovery_unique.webp" alt="Unique 1.5% Recovery Skills" class="skill-icon">
+                <img src="img/speed_unique.webp" alt="Unique 1.5% Recovery Skills" class="skill-icon d-s-none">
+                <span class="skill-label">Unique 1.5% <span class="recovery-percent">(1.5%)</span><span class="skill-tooltip-icon">!</span><div class="skill-tooltip"><strong>Unique Recovery Skills 1.5%</strong><br><span>Restores 1.5% HP (+0.02% per level &gt; 1).<br>Examples:</span><ul>
+                    <li>Operation Cacao</li>
+                </ul></div></span>
+                <div class="stepper-group">
+                    <select id="uniqueLvl15" class="recovery-level"></select>
+                    <div class="stepper-group">
+                        <button type="button" class="stepper-btn" data-target="uniqueSkill15" data-step="-1">-</button>
+                        <input type="text" id="uniqueSkill15" value="0" readonly class="skill-stepper-label">
+                        <button type="button" class="stepper-btn" data-target="uniqueSkill15" data-step="1">+</button>
+                    </div>
+                </div>
+            </div>
+            <div class="skill-box">
+                <img src="img/recovery_unique.webp" alt="Unique 3.5% Recovery Skills" class="skill-icon">
+                <img src="img/speed_unique.webp" alt="Unique 3.5% Recovery Skills" class="skill-icon d-s-none">
+                <span class="skill-label">Unique 3.5% <span class="recovery-percent">(3.5%)</span><span class="skill-tooltip-icon">!</span><div class="skill-tooltip"><strong>Unique Recovery Skills 3.5%</strong><br><span>Restores 3.5% HP (+0.02% per level &gt; 1).<br>Examples:</span><ul>
+                    <li>Introduction to Physiology</li>
+                    <li>Super-Duper Stoked</li>
+                    <li>Ready, Go!</li>
+                    <li>Festive Miracle</li>
+                </ul></div></span>
+                <div class="stepper-group">
+                    <select id="uniqueLvl35" class="recovery-level"></select>
+                    <div class="stepper-group">
+                        <button type="button" class="stepper-btn" data-target="uniqueSkill35" data-step="-1">-</button>
+                        <input type="text" id="uniqueSkill35" value="0" readonly class="skill-stepper-label">
+                        <button type="button" class="stepper-btn" data-target="uniqueSkill35" data-step="1">+</button>
+                    </div>
+                </div>
+            </div>
+            <div class="skill-box">
+                <img src="img/recovery_unique.webp" alt="Unique 5.5% Recovery Skills" class="skill-icon">
+                <span class="skill-label">Unique 5.5% <span class="recovery-percent">(5.5%)</span><span class="skill-tooltip-icon">!</span><div class="skill-tooltip"><strong>Unique Recovery Skills 5.5%</strong><br><span>Restores 5.5% HP (+0.02% per level &gt; 1).<br>Examples:</span><ul>
+                    <li>Clear Heart</li>
+                    <li>U=ma2</li>
+                    <li>Super-Duper Climax</li>
+                    <li>Dazzl'n ♪ Diver</li>
+                    <li>Every Rose Has Its Fangs</li>
+                    <li>Go, Go, Mun!</li>
+                    <li>Keep Pushing Ahead</li>
+                </ul></div></span>
+                <div class="stepper-group">
+                    <select id="uniqueLvl55" class="recovery-level"></select>
+                    <div class="stepper-group">
+                        <button type="button" class="stepper-btn" data-target="uniqueSkill55" data-step="-1">-</button>
+                        <input type="text" id="uniqueSkill55" value="0" readonly class="skill-stepper-label">
+                        <button type="button" class="stepper-btn" data-target="uniqueSkill55" data-step="1">+</button>
+                    </div>
+                </div>
+            </div>
+            <div class="skill-box">
+                <img src="img/recovery_unique.webp" alt="Unique 7.5% Recovery Skills" class="skill-icon">
+                <span class="skill-label">Unique 7.5% <span class="recovery-percent">(7.5%)</span><span class="skill-tooltip-icon">!</span><div class="skill-tooltip"><strong>Unique Recovery Skills 7.5%</strong><br><span>Restores 7.5% HP (+0.02% per level &gt; 1).<br>Examples:</span><ul>
+                    <li>Pure Heart</li>
+                    <li>Superior Heal</li>
+                </ul></div></span>
+                <div class="stepper-group">
+                    <select id="uniqueLvl75" class="recovery-level"></select>
+                    <div class="stepper-group">
+                        <button type="button" class="stepper-btn" data-target="uniqueSkill75" data-step="-1">-</button>
+                        <input type="text" id="uniqueSkill75" value="0" readonly class="skill-stepper-label">
+                        <button type="button" class="stepper-btn" data-target="uniqueSkill75" data-step="1">+</button>
+                    </div>
+                </div>
+            </div>
+            <div class="skill-box">
+                <img src="img/recovery_unique.webp" alt="Unique 9.5% Recovery Skills" class="skill-icon">
+                <span class="skill-label">Unique 9.5% <span class="recovery-percent">(9.5%)</span><span class="skill-tooltip-icon">!</span><div class="skill-tooltip"><strong>Unique Recovery Skills 9.5%</strong><br><span>Restores 9.5% HP (+0.02% per level &gt; 1).<br>Currently, there are no skills in this category.</span></div></span>
+                <div class="stepper-group">
+                    <select id="uniqueLvl95" class="recovery-level"></select>
+                    <div class="stepper-group">
+                        <button type="button" class="stepper-btn" data-target="uniqueSkill95" data-step="-1">-</button>
+                        <input type="text" id="uniqueSkill95" value="0" readonly class="skill-stepper-label">
+                        <button type="button" class="stepper-btn" data-target="uniqueSkill95" data-step="1">+</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <input type="checkbox" id="section5" class="section-toggle">
+    <label for="section5" class="section-label"><span class="section-title">5. Green Skills</span><span class="section-arrow"></span></label>
+    <div class="section-content">
+        <div class="skills-grid">
+            <div class="skill-box">
+                <img src="img/green_speed_gold.webp" alt="Gold and ◎ Speed Green Skills" class="skill-icon">
+                <span class="skill-label">Gold and ◎ Speed <span class="bonus-value">(60)</span><span class="skill-tooltip-icon">!</span><div class="skill-tooltip"><strong>Gold and ◎ Speed Skills</strong><br><span>Gold and ◎ green skills give 60 speed.<br>Examples:</span><ul>
+                    <li>Right-Handed ◎</li>
+                    <li>Left-Handed ◎</li>
+                    <li>Spring Runner ◎</li>
+                    <li>Summer Runner ◎</li>
+                    <li>Fall Runner ◎</li>
+                    <li>Winter Runner ◎</li>
+                    <li>Unchanging</li>
+                    <li>Fall Frenzy</li>
+                    <li>Spring Spectacle</li>
+                    <li>Right-Handed Demon</li>
+                </ul></div></span>
+                <div class="stepper-group">
+                    <button type="button" class="stepper-btn" data-target="gSpeedGSkill" data-step="-1">-</button>
+                    <input type="text" id="gSpeedGSkill" value="0" readonly class="skill-stepper-label">
+                    <button type="button" class="stepper-btn" data-target="gSpeedGSkill" data-step="1">+</button>
+                </div>
+            </div>
+            <div class="skill-box">
+                <img src="img/green_speed_normal.webp" alt="○ Speed Green Skills" class="skill-icon">
+                <span class="skill-label">○ Speed <span class="bonus-value">(40)</span><span class="skill-tooltip-icon">!</span><div class="skill-tooltip"><strong>○ Speed Skills</strong><br><span>○ green skills give 40 speed.<br>Examples:</span><ul>
+                    <li>Right-Handed ○</li>
+                    <li>Left-Handed ○</li>
+                    <li>Spring Runner ○</li>
+                    <li>Summer Runner ○</li>
+                    <li>Fall Runner ○</li>
+                    <li>Winter Runner ○</li>
+                </ul></div></span>
+                <div class="stepper-group">
+                    <button type="button" class="stepper-btn" data-target="nSpeedGSkill" data-step="-1">-</button>
+                    <input type="text" id="nSpeedGSkill" value="0" readonly class="skill-stepper-label">
+                    <button type="button" class="stepper-btn" data-target="nSpeedGSkill" data-step="1">+</button>
+                </div>
+            </div>
+            <div class="skill-box">
+                <img src="img/green_stamina_gold.webp" alt="Gold and ◎ Stamina Green Skills" class="skill-icon">
+                <span class="skill-label">Gold and ◎ Stamina <span class="bonus-value">(60)</span><span class="skill-tooltip-icon">!</span><div class="skill-tooltip"><strong>Gold and ◎ Stamina Skills</strong><br><span>Gold and ◎ green skills give 60 stamina.<br>Examples:</span><ul>
+                    <li>Standard Distance ◎</li>
+                    <li>Tokyo Racecourse ◎</li>
+                    <li>Yodo Invicta</li>
+                    <li>For the Team</li>
+                </ul></div></span>
+                <div class="stepper-group">
+                    <button type="button" class="stepper-btn" data-target="gStamGSkill" data-step="-1">-</button>
+                    <input type="text" id="gStamGSkill" value="0" readonly class="skill-stepper-label">
+                    <button type="button" class="stepper-btn" data-target="gStamGSkill" data-step="1">+</button>
+                </div>
+            </div>
+            <div class="skill-box">
+                <img src="img/green_stamina_normal.webp" alt="○ Stamina Green Skills" class="skill-icon">
+                <span class="skill-label">○ Stamina <span class="bonus-value">(40)</span><span class="skill-tooltip-icon">!</span><div class="skill-tooltip"><strong>○ Stamina Skills</strong><br><span>○ green skills give 40 stamina.<br>Examples:</span><ul>
+                    <li>Standard Distance ○</li>
+                    <li>Tokyo Racecourse ○</li>
+                </ul></div></span>
+                <div class="stepper-group">
+                    <button type="button" class="stepper-btn" data-target="nStamGSkill" data-step="-1">-</button>
+                    <input type="text" id="nStamGSkill" value="0" readonly class="skill-stepper-label">
+                    <button type="button" class="stepper-btn" data-target="nStamGSkill" data-step="1">+</button>
+                </div>
+            </div>
+            <div class="skill-box">
+                <img src="img/green_power_gold.webp" alt="Gold and ◎ Power Green Skills" class="skill-icon">
+                <span class="skill-label">Gold and ◎ Power <span class="bonus-value">(60)</span><span class="skill-tooltip-icon">!</span><div class="skill-tooltip"><strong>Gold and ◎ Power Skills</strong><br><span>Gold and ◎ green skills give 60 power.<br>Examples:</span><ul>
+                    <li>Firm Conditions ◎</li>
+                    <li>Wet Conditions ◎</li>
+                    <li>Competitive Spirit ◎</li>
+                    <li>Firm Course Menace</li>
+                </ul></div></span>
+                <div class="stepper-group">
+                    <button type="button" class="stepper-btn" data-target="gPowerGSkill" data-step="-1">-</button>
+                    <input type="text" id="gPowerGSkill" value="0" readonly class="skill-stepper-label">
+                    <button type="button" class="stepper-btn" data-target="gPowerGSkill" data-step="1">+</button>
+                </div>
+            </div>
+            <div class="skill-box">
+                <img src="img/green_power_normal.webp" alt="○ Power Green Skills" class="skill-icon">
+                <span class="skill-label">○ Power <span class="bonus-value">(40)</span><span class="skill-tooltip-icon">!</span><div class="skill-tooltip"><strong>○ Power Skills</strong><br><span>○ green skills give 40 power.<br>Examples:</span><ul>
+                    <li>Firm Conditions ○</li>
+                    <li>Wet Conditions ○</li>
+                    <li>Competitive Spirit ○</li>
+                </ul></div></span>
+                <div class="stepper-group">
+                    <button type="button" class="stepper-btn" data-target="nPowerGSkill" data-step="-1">-</button>
+                    <input type="text" id="nPowerGSkill" value="0" readonly class="skill-stepper-label">
+                    <button type="button" class="stepper-btn" data-target="nPowerGSkill" data-step="1">+</button>
+                </div>
+            </div>
+            <div class="skill-box">
+                <img src="img/green_guts_normal.webp" alt="◎ Guts Green Skills" class="skill-icon">
+                <span class="skill-label">◎ Guts <span class="bonus-value">(60)</span><span class="skill-tooltip-icon">!</span><div class="skill-tooltip"><strong>◎ Guts Skills</strong><br><span>◎ green skills give 60 guts.<br>Examples:</span><ul>
+                    <li>Sunny Days ◎</li>
+                    <li>Cloudy Days ◎</li>
+                    <li>Rainy Days ◎</li>
+                    <li>Snowy Days ◎</li>
+                    <li>Target in Sight ◎</li>
+                </ul></div></span>
+                <div class="stepper-group">
+                    <button type="button" class="stepper-btn" data-target="gGutsGSkill" data-step="-1">-</button>
+                    <input type="text" id="gGutsGSkill" value="0" readonly class="skill-stepper-label">
+                    <button type="button" class="stepper-btn" data-target="gGutsGSkill" data-step="1">+</button>
+                </div>
+            </div>
+            <div class="skill-box">
+                <img src="img/green_guts_normal.webp" alt="○ Guts Green Skills" class="skill-icon">
+                <span class="skill-label">○ Guts <span class="bonus-value">(40)</span><span class="skill-tooltip-icon">!</span><div class="skill-tooltip"><strong>○ Guts Skills</strong><br><span>○ green skills give 40 guts.<br>Examples:</span><ul>
+                    <li>Sunny Days ○</li>
+                    <li>Cloudy Days ○</li>
+                    <li>Rainy Days ○</li>
+                    <li>Snowy Days ○</li>
+                    <li>Target in Sight ○</li>
+                </ul></div></span>
+                <div class="stepper-group">
+                    <button type="button" class="stepper-btn" data-target="nGutsGSkill" data-step="-1">-</button>
+                    <input type="text" id="nGutsGSkill" value="0" readonly class="skill-stepper-label">
+                    <button type="button" class="stepper-btn" data-target="nGutsGSkill" data-step="1">+</button>
+                </div>
+            </div>
+            <div class="skill-box">
+                <img src="img/green_wit_gold.webp" alt="Gold and ◎ Wit Green Skills" class="skill-icon">
+                <span class="skill-label">Gold and ◎ Wit <span class="bonus-value">(60)</span><span class="skill-tooltip-icon">!</span><div class="skill-tooltip"><strong>Gold and ◎ Wit Skills</strong><br><span>Gold and ◎ green skills give 60 wit.<br>Examples:</span><ul>
+                    <li>Inner Post Proficiency ◎</li>
+                    <li>Front Runner Savvy ◎</li>
+                    <li>Pace Chaser Savvy ◎</li>
+                    <li>Late Surger Savvy ◎</li>
+                    <li>End Closer Savvy ◎</li>
+                </ul></div></span>
+                <div class="stepper-group">
+                    <button type="button" class="stepper-btn" data-target="gWitGSkill" data-step="-1">-</button>
+                    <input type="text" id="gWitGSkill" value="0" readonly class="skill-stepper-label">
+                    <button type="button" class="stepper-btn" data-target="gWitGSkill" data-step="1">+</button>
+                </div>
+            </div>
+            <div class="skill-box">
+                <img src="img/green_wit_normal.webp" alt="○ Wit Green Skills" class="skill-icon">
+                <span class="skill-label">○ Wit <span class="bonus-value">(40)</span><span class="skill-tooltip-icon">!</span><div class="skill-tooltip"><strong>○ Wit Skills</strong><br><span>○ green skills give 40 wit.<br>Examples:</span><ul>
+                    <li>Inner Post Proficiency ○</li>
+                    <li>Front Runner Savvy ○</li>
+                    <li>Pace Chaser Savvy ○</li>
+                    <li>Late Surger Savvy ○</li>
+                    <li>End Closer Savvy ○</li>
+                </ul></div></span>
+                <div class="stepper-group">
+                    <button type="button" class="stepper-btn" data-target="nWitGSkill" data-step="-1">-</button>
+                    <input type="text" id="nWitGSkill" value="0" readonly class="skill-stepper-label">
+                    <button type="button" class="stepper-btn" data-target="nWitGSkill" data-step="1">+</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="calculated-stats-area">
+        <div class="text-center">Calculated stats</div>
+        <div class="calculated-stats-row">
+            <div>
+                <div class="stat-label">Speed</div>
+                <img src="img/speed.webp" alt="Speed">
+                <div id="stat-adjSpd" class="stat-value">-</div>
+            </div>
+            <div>
+                <div class="stat-label">Stamina</div>
+                <img src="img/stamina.webp" alt="Stamina">
+                <div id="stat-adjStam" class="stat-value">-</div>
+            </div>
+            <div>
+                <div class="stat-label">Power</div>
+                <img src="img/power.webp" alt="Power">
+                <div id="stat-adjPwr" class="stat-value">-</div>
+            </div>
+            <div>
+                <div class="stat-label">Guts</div>
+                <img src="img/guts.webp" alt="Guts">
+                <div id="stat-adjGuts" class="stat-value">-</div>
+            </div>
+            <div>
+                <div class="stat-label">Wit</div>
+                <img src="img/wit.webp" alt="Wit">
+                <div id="stat-adjWit" class="stat-value">-</div>
+            </div>
+        </div>
     </div>
 
     <div class="results-area">
@@ -200,8 +550,11 @@ function init() {
     populate('aptDist', CONFIG.AptDist);
     populate('aptStyle', CONFIG.AptStyle);
     populate('style', CONFIG.RunningStyles);
-    populate('uniqueLvl2star', CONFIG.UniqueRecovery);
-    populate('uniqueLvl3star', CONFIG.UniqueRecovery);
+    populate('uniqueLvl15', CONFIG.UniqueRecovery);
+    populate('uniqueLvl35', CONFIG.UniqueRecovery);
+    populate('uniqueLvl55', CONFIG.UniqueRecovery);
+    populate('uniqueLvl75', CONFIG.UniqueRecovery);
+    populate('uniqueLvl95', CONFIG.UniqueRecovery);
 
     // 2. Logic for the dynamic select (Condition)
     const surfaceEl = document.getElementById('surface');
@@ -227,13 +580,24 @@ function init() {
         // Use a temporary global variable at load to handle dependencies
         window._loadingState = savedState;
 
+        // Disable all transitions during load to prevent jank
+        const allSections = document.querySelectorAll('.section-content');
+        allSections.forEach(el => el.classList.add('no-transition'));
+
         Object.keys(savedState).forEach(id => {
             const el = document.getElementById(id);
             if (el) {
-                el.value = savedState[id];
-                if (id.startsWith('apt')) syncRankColor(el);
+                if (el.type === 'checkbox') {
+                    el.checked = savedState[id];
+                } else {
+                    el.value = savedState[id];
+                    if (id.startsWith('apt')) syncRankColor(el);
+                }
             }
         });
+
+        // Restore transitions
+        setTimeout(() => allSections.forEach(el => el.classList.remove('no-transition')), 100);
     } else {
         // Defaults if nothing in localStorage
         const defaults = ['aptTrack', 'aptDist', 'aptStyle'];
@@ -243,8 +607,8 @@ function init() {
             syncRankColor(el);
         });
         document.getElementById('mood').value = 'Normal';
-        document.getElementById('uniqueLvl2star').value = 'Lvl 1';
-        document.getElementById('uniqueLvl3star').value = 'Lvl 1';
+        document.getElementById('uniqueLvl35').value = 'Lvl 1';
+        document.getElementById('uniqueLvl55').value = 'Lvl 1';
     }
 
     // 4. Manual trigger of surface to populate 'condition'
@@ -256,6 +620,17 @@ function init() {
     // Add events to all inputs to trigger calculation on change
     document.querySelectorAll('input').forEach(input => input.addEventListener('input', calc));
     document.querySelectorAll('select').forEach(select => select.addEventListener('change', calc));
+    // Add events to steppers
+    document.querySelectorAll('.stepper-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const target = document.getElementById(this.dataset.target);
+            let val = parseInt(target.value) || 0;
+            val += parseInt(this.dataset.step);
+            if (val < 0) val = 0;
+            target.value = val;
+            target.dispatchEvent(new Event('input', {bubbles:true}));
+        });
+    });
 
     calc();
 }
@@ -283,49 +658,77 @@ function calc() {
     const styleName         = document.getElementById('style').value;
     const styleData         = CONFIG.RunningStyles[styleName];
 
-    const gold              = parseInt(document.getElementById('goldSkill').value) || 0;
-    const white             = parseInt(document.getElementById('whiteSkill').value) || 0;
-    const unique2star       = parseInt(document.getElementById('uniqueSkill2star').value) || 0;
-    const uniqueLvl2starKey = document.getElementById('uniqueLvl2star').value;
-    const uniqueLvl2star    = CONFIG.UniqueRecovery[uniqueLvl2starKey];
-    const unique3star       = parseInt(document.getElementById('uniqueSkill3star').value) || 0;
-    const uniqueLvl3starKey = document.getElementById('uniqueLvl3star').value;
-    const uniqueLvl3star    = CONFIG.UniqueRecovery[uniqueLvl3starKey];
+    const goldR              = parseInt(document.getElementById('goldRecoverySkill').value) || 0;
+    const whiteR             = parseInt(document.getElementById('whiteRecoverySkill').value) || 0;
+    const unique15          = parseInt(document.getElementById('uniqueSkill15').value) || 0;
+    const uniqueLvl15Key    = document.getElementById('uniqueLvl15').value;
+    const uniqueLvl15       = CONFIG.UniqueRecovery[uniqueLvl15Key];
+    const unique35          = parseInt(document.getElementById('uniqueSkill35').value) || 0;
+    const uniqueLvl35Key    = document.getElementById('uniqueLvl35').value;
+    const uniqueLvl35       = CONFIG.UniqueRecovery[uniqueLvl35Key];
+    const unique55          = parseInt(document.getElementById('uniqueSkill55').value) || 0;
+    const uniqueLvl55Key    = document.getElementById('uniqueLvl55').value;
+    const uniqueLvl55       = CONFIG.UniqueRecovery[uniqueLvl55Key];
+    const unique75          = parseInt(document.getElementById('uniqueSkill75').value) || 0;
+    const uniqueLvl75Key    = document.getElementById('uniqueLvl75').value;
+    const uniqueLvl75       = CONFIG.UniqueRecovery[uniqueLvl75Key];
+    const unique95          = parseInt(document.getElementById('uniqueSkill95').value) || 0;
+    const uniqueLvl95Key    = document.getElementById('uniqueLvl95').value;
+    const uniqueLvl95       = CONFIG.UniqueRecovery[uniqueLvl95Key];
+
+    const goldSpeedG        = (parseInt(document.getElementById('gSpeedGSkill').value) || 0) * 60;
+    const whiteSpeedG       = (parseInt(document.getElementById('nSpeedGSkill').value) || 0) * 40;
+    const goldStamG         = (parseInt(document.getElementById('gStamGSkill').value) || 0) * 60;
+    const whiteStamG        = (parseInt(document.getElementById('nStamGSkill').value) || 0) * 40;
+    const goldPwrG          = (parseInt(document.getElementById('gPowerGSkill').value) || 0) * 60;
+    const whitePwrG         = (parseInt(document.getElementById('nPowerGSkill').value) || 0) * 40;
+    const goldGutsG         = (parseInt(document.getElementById('gGutsGSkill').value) || 0) * 60;
+    const whiteGutsG        = (parseInt(document.getElementById('nGutsGSkill').value) || 0) * 40;
+    const goldWitG          = (parseInt(document.getElementById('gWitGSkill').value) || 0) * 60;
+    const whiteWitG         = (parseInt(document.getElementById('nWitGSkill').value) || 0) * 40;
 
     // Save all the inputs in the localStorage as json
     const inputs = document.querySelectorAll('input, select');
     const state = {};
-    inputs.forEach(el => { if(el.id) state[el.id] = el.value; });
+    inputs.forEach(el => { if(el.id) state[el.id] = el.type === 'checkbox' ? el.checked : el.value; });
     localStorage.setItem('inputState', JSON.stringify(state));
 
     // Constants
     const paceDownChangeAssumption = 0.05;
     const goldRecovery = 0.055;
     const whiteRecovery = 0.015;
-    const unique2starRecovery = 0.035;
-    const unique3starRecovery = 0.055;
-
+    const unique15Recovery = 0.015;
+    const unique35Recovery = 0.035;
+    const unique55Recovery = 0.055;
+    const unique75Recovery = 0.075;
+    const unique95Recovery = 0.095;
     // Formules
     // 1. STAT MODIFIERS (Surface/Condition)
     const condMods = CONFIG.TrackConditions[surf][cond];
-    const adjPwr = (pwrBase + condMods.pwr) * trackApt * moodVal;
-    const adjSpd = (speedBase + condMods.spd) * distApt.speed * moodVal;
+    const adjSpd = (speedBase + goldSpeedG + whiteSpeedG + condMods.spd) * distApt.speed * moodVal;
+    const adjStam = stamBase + goldStamG + whiteStamG;
+    const adjPwr = (pwrBase + goldPwrG + whitePwrG + condMods.pwr) * trackApt * moodVal;
+    const adjGuts = gutsBase + goldGutsG + whiteGutsG;
+    const adjWit = witBase + goldWitG + whiteWitG;
 
     // 2. HP CALCULATIONS
     const baseSpeed = 20 - (dist - 2000) / 1000;  // in m/s
-    const baseHP = dist + 0.8 * stamBase * styleData.hp;
-    const unique2starRecoveryBonus = 1 + uniqueLvl2star;
-    const unique3starRecoveryBonus = 1 + uniqueLvl3star;
-    const recoveryStdSkillRate = (gold * goldRecovery) + (white * whiteRecovery);
-    const recoveryUniqueRate = (unique2star * (unique2starRecovery * unique2starRecoveryBonus)) + (unique3star * (unique3starRecovery * unique3starRecoveryBonus));
+    const baseHP = dist + 0.8 * adjStam * styleData.hp;
+    const unique15RecoveryBonus = 1 + uniqueLvl15;
+    const unique35RecoveryBonus = 1 + uniqueLvl35;
+    const unique55RecoveryBonus = 1 + uniqueLvl55;
+    const unique75RecoveryBonus = 1 + uniqueLvl75;
+    const unique95RecoveryBonus = 1 + uniqueLvl95;
+    const recoveryStdSkillRate = (goldR * goldRecovery) + (whiteR * whiteRecovery);
+    const recoveryUniqueRate = (unique15 * (unique15Recovery * unique15RecoveryBonus)) + (unique35 * (unique35Recovery * unique35RecoveryBonus)) + (unique55 * (unique55Recovery * unique55RecoveryBonus)) + (unique75 * (unique75Recovery * unique75RecoveryBonus)) + (unique95 * (unique95Recovery * unique95RecoveryBonus));
     const recoveryRate = recoveryStdSkillRate + recoveryUniqueRate;
     const totalHP = baseHP * (1 + recoveryRate);
 
     const consumptionTrackFactor = CONFIG.TrackConditions[surf][cond].cons;
-    const consumptionLastSpurtFactor = 1 + (200 / Math.sqrt(600*gutsBase));
+    const consumptionLastSpurtFactor = 1 + (200 / Math.sqrt(600*adjGuts));
 
     function calcTopSpeed(speedCoeff) {
-        return baseSpeed * speedCoeff + ((witBase/5500) * Math.log10(witBase*0.1) - 0.65 / 2) * 0.01 * baseSpeed;
+        return baseSpeed * speedCoeff + ((adjWit/5500) * Math.log10(adjWit*0.1) - 0.65 / 2) * 0.01 * baseSpeed;
     }
 
     const midLegTopSpeedBeforeModes = calcTopSpeed(styleData.speed[1]);
@@ -337,11 +740,11 @@ function calc() {
             return calcTopSpeed(speedCoeff);
         }
         if (phaseId === 1) {
-            const styleCoeff = styleName !== 'Front Runner' ? -0.055*paceDownChangeAssumption : 0.04 * 0.2 * Math.log10(witBase * 0.1);
+            const styleCoeff = styleName !== 'Front Runner' ? -0.055*paceDownChangeAssumption : 0.04 * 0.2 * Math.log10(adjWit * 0.1);
             return midLegTopSpeedBeforeModes * (1 + nonNormalModeUptime * styleCoeff)
         }
         if (phaseId === 2) {
-            return baseSpeed * speedCoeff + Math.sqrt(500 * adjSpd) * distApt.speed * trackApt * 0.002 + ((witBase/5500) * Math.log10(witBase*0.1) - 0.65 / 2) * 0.01 * baseSpeed;
+            return baseSpeed * speedCoeff + Math.sqrt(500 * adjSpd) * distApt.speed * trackApt * 0.002 + ((adjWit/5500) * Math.log10(adjWit*0.1) - 0.65 / 2) * 0.01 * baseSpeed;
         }
         const lastSpurtBase = (baseSpeed * (speedCoeff + 0.01) + Math.sqrt(500 * adjSpd) * distApt.speed * trackApt * 0.002);
         return lastSpurtBase * 1.05 + Math.sqrt(500 * adjSpd) * distApt.speed * trackApt * 0.002;
@@ -563,9 +966,15 @@ function calc() {
         raceMatrix.idealConsumption.hpConsumption +
         raceMatrix.idealConsumptionConstant.hpConsumption
     );
-    const targetStamina = stamBase + (consumption - totalHP) / 0.8 / styleData.hp / (1 + recoveryRate);
+    const targetStamina = adjStam + (consumption - totalHP) / 0.8 / styleData.hp / (1 + recoveryRate);
 
     // Update UI
+    document.getElementById('stat-adjSpd').innerText = Math.ceil(adjSpd);
+    document.getElementById('stat-adjStam').innerText = Math.ceil(adjStam);
+    document.getElementById('stat-adjPwr').innerText = Math.ceil(adjPwr);
+    document.getElementById('stat-adjGuts').innerText = Math.ceil(adjGuts);
+    document.getElementById('stat-adjWit').innerText = Math.ceil(adjWit);
+
     document.getElementById('res-hp').innerText = totalHP.toFixed(2);
     document.getElementById('res-cons').innerText = consumption.toFixed(2);
     document.getElementById('res-target').innerText = Math.ceil(targetStamina);
@@ -577,8 +986,8 @@ function calc() {
     // Update Tooltips
     document.getElementById('tip-hp').innerText =
         `Base HP = Distance + 0.8 × Stamina × Style HP Mod\n` +
-        `Formula: baseHP = ${dist} + 0.8 × ${stamBase} × ${styleData.hp.toFixed(3)} = ${baseHP.toFixed(2)}\n` +
-        `Recovery: (${gold} × ${(goldRecovery*100).toFixed(1)}%) + (${white} × ${(whiteRecovery*100).toFixed(1)}%) + (${unique2star} × ${((unique2starRecovery*unique2starRecoveryBonus)*100).toFixed(2)}%) + (${unique3star} × ${((unique3starRecovery*unique3starRecoveryBonus)*100).toFixed(2)}%) = ${(recoveryRate*100).toFixed(2)}%\n` +
+        `Formula: baseHP = ${dist} + 0.8 × ${adjStam} × ${styleData.hp.toFixed(3)} = ${baseHP.toFixed(2)}\n` +
+        `Recovery: (${goldR} × ${(goldRecovery*100).toFixed(1)}%) + (${whiteR} × ${(whiteRecovery*100).toFixed(1)}%) + (${unique15} × ${((unique15Recovery*unique15RecoveryBonus)*100).toFixed(2)}%) + (${unique35} × ${((unique35Recovery*unique35RecoveryBonus)*100).toFixed(2)}%) + (${unique55} × ${((unique55Recovery*unique55RecoveryBonus)*100).toFixed(2)}%) + (${unique75} × ${((unique75Recovery*unique75RecoveryBonus)*100).toFixed(2)}%) + (${unique95} × ${((unique95Recovery*unique95RecoveryBonus)*100).toFixed(2)}%) = ${(recoveryRate*100).toFixed(2)}%\n` +
         `Total HP = baseHP × Recovery% = ${baseHP.toFixed(2)} × ${(100+recoveryRate*100).toFixed(2)}% = ${totalHP.toFixed(2)}`;
 
     document.getElementById('tip-cons').innerText =
@@ -595,7 +1004,7 @@ function calc() {
 
     document.getElementById('tip-target').innerText =
         `Required Stamina = Current Stamina + (Consumption - Total HP) / (0.8 × Style HP Mod × Recovery%)\n` +
-        `Formula: ${stamBase} + (${consumption.toFixed(2)} - ${totalHP.toFixed(2)}) / (0.8 × ${styleData.hp.toFixed(2)} × ${(100+recoveryRate*100).toFixed(2)}%) = ${Math.ceil(targetStamina)}`;
+        `Formula: ${adjStam} + (${consumption.toFixed(2)} - ${totalHP.toFixed(2)}) / (0.8 × ${styleData.hp.toFixed(2)} × ${(100+recoveryRate*100).toFixed(2)}%) = ${Math.ceil(targetStamina)}`;
 }
 
 window.onload = init;
