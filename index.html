@@ -22,14 +22,14 @@
         .input-group { display: flex; flex-direction: column; gap: 4px; }
         label { font-weight: bold; font-size: 0.8rem; color: var(--gray); }
         input, select { padding: 8px; border: 1px solid #dfe6e9; border-radius: 6px; font-size: 0.9rem; }
-        
+
         .results-area { background: #2d3436; color: white; border-radius: 10px; padding: 20px; margin-top: 20px; }
         .res-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; text-align: center; }
         .res-box h3 { font-size: 0.7rem; color: #b2bec3; margin: 5px; }
         .res-val { font-size: 1.8rem; font-weight: bold; color: var(--uma-blue); display: block; margin-top: 5px; }
-        
+
         .tooltip { position: relative; cursor: help; border-bottom: 1px dotted #777; }
-        .tooltip .tooltiptext { 
+        .tooltip .tooltiptext {
             visibility: hidden; width: 300px; background: #555; color: #fff; padding: 10px; border-radius: 6px;
             position: absolute; z-index: 10; bottom: 125%; left: 50%; transform: translateX(-50%);
             font-size: 0.75rem; white-space: pre-wrap; opacity: 0; transition: opacity 0.2s; pointer-events: none;
@@ -72,37 +72,37 @@
 
     <div class="section-label">1. Character Statistics</div>
     <div class="row col-5">
-        <div class="input-group"><label for="speed">Speed</label><input type="number" id="speed" value="1200" oninput="calc()"></div>
-        <div class="input-group"><label for="stam">Stamina</label><input type="number" id="stam" value="900" oninput="calc()"></div>
-        <div class="input-group"><label for="power">Power</label><input type="number" id="power" value="1200" oninput="calc()"></div>
-        <div class="input-group"><label for="guts">Guts</label><input type="number" id="guts" value="600" oninput="calc()"></div>
-        <div class="input-group"><label for="wit">Wisdom</label><input type="number" id="wit" value="1200" oninput="calc()"></div>
+        <div class="input-group"><label for="speed">Speed</label><input type="number" id="speed" value="1200"></div>
+        <div class="input-group"><label for="stam">Stamina</label><input type="number" id="stam" value="900"></div>
+        <div class="input-group"><label for="power">Power</label><input type="number" id="power" value="1200"></div>
+        <div class="input-group"><label for="guts">Guts</label><input type="number" id="guts" value="600"></div>
+        <div class="input-group"><label for="wit">Wisdom</label><input type="number" id="wit" value="1200"></div>
     </div>
 
     <div class="section-label">2. Race Information</div>
     <div class="row col-4">
-        <div class="input-group"><label for="dist">Distance (m)</label><input type="number" id="dist" value="2400" oninput="calc()"></div>
-        <div class="input-group"><label for="surface">Track Surface</label><select id="surface" onchange="calc()"></select></div>
-        <div class="input-group"><label for="condition">Track Condition</label><select id="condition" onchange="calc()"></select></div>
-        <div class="input-group"><label for="mood">Mood</label><select id="mood" onchange="calc()"></select></div>
+        <div class="input-group"><label for="dist">Distance (m)</label><input type="number" id="dist" value="2400"></div>
+        <div class="input-group"><label for="surface">Track Surface</label><select id="surface"></select></div>
+        <div class="input-group"><label for="condition">Track Condition</label><select id="condition"></select></div>
+        <div class="input-group"><label for="mood">Mood</label><select id="mood"></select></div>
     </div>
 
     <div class="section-label">3. Aptitude (Ranks)</div>
     <div class="row col-4">
-        <div class="input-group"><label for="aptTrack">Track Aptitude</label><select id="aptTrack" onchange="calc()"></select></div>
-        <div class="input-group"><label for="aptDist">Distance Aptitude</label><select id="aptDist" onchange="calc()"></select></div>
-        <div class="input-group"><label for="style">Running Style</label><select id="style" onchange="calc()"></select></div>
-        <div class="input-group"><label for="aptStyle">Style Aptitude</label><select id="aptStyle" onchange="calc()"></select></div>
+        <div class="input-group"><label for="aptTrack">Track Aptitude</label><select id="aptTrack"></select></div>
+        <div class="input-group"><label for="aptDist">Distance Aptitude</label><select id="aptDist"></select></div>
+        <div class="input-group"><label for="style">Running Style</label><select id="style"></select></div>
+        <div class="input-group"><label for="aptStyle">Style Aptitude</label><select id="aptStyle"></select></div>
     </div>
 
     <div class="section-label">4. Recovery Skills</div>
     <div class="row col-2">
-        <div class="input-group"><label for="goldSkill">Gold Skills (5.5%)</label><input type="number" id="goldSkill" value="0" oninput="calc()"></div>
-        <div class="input-group"><label for="whiteSkill">White Skills (1.5%)</label><input type="number" id="whiteSkill" value="0" oninput="calc()"></div>
-        <div class="input-group"><label for="uniqueSkill2star">Unique Skills 1-2* (3.5%)</label><input type="number" id="uniqueSkill2star" value="0" oninput="calc()"></div>
-        <div class="input-group"><label for="uniqueLvl2star">Unique Level 1-2* (+0.02% per level > 1)</label><select id="uniqueLvl2star" onchange="calc()"></select></div>
-        <div class="input-group"><label for="uniqueSkill3star">Unique Skills 3* (3.5%)</label><input type="number" id="uniqueSkill3star" value="0" oninput="calc()"></div>
-        <div class="input-group"><label for="uniqueLvl3star">Unique Level 3* (+0.02% per level > 1)</label><select id="uniqueLvl3star" onchange="calc()"></select></div>
+        <div class="input-group"><label for="goldSkill">Gold Skills (5.5%)</label><input type="number" id="goldSkill" value="0"></div>
+        <div class="input-group"><label for="whiteSkill">White Skills (1.5%)</label><input type="number" id="whiteSkill" value="0"></div>
+        <div class="input-group"><label for="uniqueSkill2star">Unique Skills 1-2* (3.5%)</label><input type="number" id="uniqueSkill2star" value="0"></div>
+        <div class="input-group"><label for="uniqueLvl2star">Unique Level 1-2* (+0.02% per level > 1)</label><select id="uniqueLvl2star"></select></div>
+        <div class="input-group"><label for="uniqueSkill3star">Unique Skills 3* (3.5%)</label><input type="number" id="uniqueSkill3star" value="0"></div>
+        <div class="input-group"><label for="uniqueLvl3star">Unique Level 3* (+0.02% per level > 1)</label><select id="uniqueLvl3star"></select></div>
     </div>
 
     <div class="results-area">
@@ -140,8 +140,8 @@
  */
 const CONFIG = {
     AptTrack: { 'S': 1.05, 'A': 1.0, 'B': 0.9, 'C': 0.8, 'D': 0.7, 'E': 0.5, 'F': 0.3, 'G': 0.1 },
-    AptDist: { 
-        'S': { speed: 1.05, accel: 1.0 }, 'A': { speed: 1.0, accel: 1.0 }, 
+    AptDist: {
+        'S': { speed: 1.05, accel: 1.0 }, 'A': { speed: 1.0, accel: 1.0 },
         'B': { speed: 0.9, accel: 1.0 }, 'C': { speed: 0.8, accel: 1.0 },
         'D': { speed: 0.6, accel: 1.0 }, 'E': { speed: 0.4, accel: 0.6 },
         'F': { speed: 0.2, accel: 0.5 }, 'G': { speed: 0.1, accel: 0.4 }
@@ -192,7 +192,7 @@ function init() {
             syncRankColor(sel);
         }
     };
-    
+
     // 1. Initial population of all static selects
     populate('surface', CONFIG.TrackConditions);
     populate('mood', CONFIG.Mood);
@@ -222,11 +222,11 @@ function init() {
 
     // 3. LOAD STATE (Default or LocalStorage)
     const savedState = JSON.parse(localStorage.getItem('inputState'));
-    
+
     if (savedState) {
         // Use a temporary global variable at load to handle dependencies
-        window._loadingState = savedState; 
-        
+        window._loadingState = savedState;
+
         Object.keys(savedState).forEach(id => {
             const el = document.getElementById(id);
             if (el) {
@@ -249,10 +249,14 @@ function init() {
 
     // 4. Manual trigger of surface to populate 'condition'
     surfaceEl.dispatchEvent(new Event('change'));
-    
+
     // Cleanup
     delete window._loadingState;
-    
+
+    // Add events to all inputs to trigger calculation on change
+    document.querySelectorAll('input').forEach(input => input.addEventListener('input', calc));
+    document.querySelectorAll('select').forEach(select => select.addEventListener('change', calc));
+
     calc();
 }
 
@@ -264,12 +268,12 @@ function calc() {
     const gutsBase          = parseFloat(document.getElementById('guts').value) || 0;
     const witBase           = parseFloat(document.getElementById('wit').value) || 0;
     const dist              = parseFloat(document.getElementById('dist').value) || 0;
-    
+
     const surf              = document.getElementById('surface').value;
     const cond              = document.getElementById('condition').value;
     const mood              = document.getElementById('mood').value;
     const moodVal           = CONFIG.Mood[mood];
-    
+
     const aptTrack          = document.getElementById('aptTrack').value;
     const trackApt          = CONFIG.AptTrack[aptTrack];
     const aptDist           = document.getElementById('aptDist').value;
@@ -278,7 +282,7 @@ function calc() {
     const styleApt          = CONFIG.AptStyle[aptStyle];
     const styleName         = document.getElementById('style').value;
     const styleData         = CONFIG.RunningStyles[styleName];
-    
+
     const gold              = parseInt(document.getElementById('goldSkill').value) || 0;
     const white             = parseInt(document.getElementById('whiteSkill').value) || 0;
     const unique2star       = parseInt(document.getElementById('uniqueSkill2star').value) || 0;
@@ -565,7 +569,7 @@ function calc() {
     document.getElementById('res-hp').innerText = totalHP.toFixed(2);
     document.getElementById('res-cons').innerText = consumption.toFixed(2);
     document.getElementById('res-target').innerText = Math.ceil(targetStamina);
-    
+
     const status = document.getElementById('res-status');
     status.innerText = totalHP >= consumption ? "Enough ✅" : "Not Enough ❌";
     status.style.color = totalHP >= consumption ? "#2ecc71" : "#ff7675";
